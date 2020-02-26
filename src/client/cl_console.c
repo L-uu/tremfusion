@@ -907,11 +907,7 @@ void Con_DrawSolidConsole( float frac ) {
 	}
 
 	currentColor = 7;
-	color[0] = g_color_table[currentColor][0];
-	color[1] = g_color_table[currentColor][1];
-	color[2] = g_color_table[currentColor][2];
-	color[3] = (scr_conUseOld->integer ? 1.0f : frac * 2.0f);
-	re.SetColor( color );
+	re.SetColor( g_color_table[currentColor] );
 
 	for (i=0 ; i<rows ; i++, y -= SCR_ConsoleFontCharHeight(), row--)
 	{
@@ -926,13 +922,9 @@ void Con_DrawSolidConsole( float frac ) {
 
         float currentWidthLocation = cl_conXOffset->integer;
 		for (x=0 ; x<con.linewidth ; x++) {
-			if ( ( (text[x]>>8)&7 ) != currentColor ) {
-				currentColor = (text[x]>>8)&7;
-				color[0] = g_color_table[currentColor][0];
-				color[1] = g_color_table[currentColor][1];
-				color[2] = g_color_table[currentColor][2];
-				color[3] = (scr_conUseOld->integer ? 1.0f : frac * 2.0f);
-				re.SetColor( color );
+			if ( ColorIndexForNumber( text[x]>>8 ) != currentColor ) {
+				currentColor = ColorIndexForNumber( text[x]>>8 );
+				re.SetColor( g_color_table[currentColor] );
 			}
             
             SCR_DrawConsoleFontChar(  con.xadjust + currentWidthLocation, y, text[x] & 0xff );
