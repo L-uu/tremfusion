@@ -25,16 +25,16 @@ ifndef BUILD_CLIENT
   BUILD_CLIENT     = 1
 endif
 ifndef BUILD_CLIENT_TTY
-  BUILD_CLIENT_TTY = 1
+  BUILD_CLIENT_TTY = 0
 endif
 ifndef BUILD_SERVER
-  BUILD_SERVER     = 1
+  BUILD_SERVER     = 0
 endif
 ifndef BUILD_GAME_SO
-  BUILD_GAME_SO    = 1
+  BUILD_GAME_SO    = 0
 endif
 ifndef BUILD_GAME_QVM
-  BUILD_GAME_QVM   = 1
+  BUILD_GAME_QVM   = 0
 endif
 
 #############################################################################
@@ -344,7 +344,7 @@ ifeq ($(PLATFORM),linux)
     ifeq ($(USE_LOCAL_HEADERS),1)
       BASE_CFLAGS += -I$(FTDIR)
     else
-      BASE_CFLAGS += $(shell freetype-config --cflags)
+      BASE_CFLAGS += $(shell pkg-config freetype2 --cflags)
     endif
     TTYC_CFLAGS += -UBUILD_FREETYPE
   endif
@@ -459,7 +459,7 @@ ifeq ($(PLATFORM),linux)
   endif
 
   ifeq ($(USE_FREETYPE),1)
-    CLIENT_LIBS += $(shell freetype-config --libs)
+    CLIENT_LIBS += $(shell pkg-config freetype2 --libs)
   endif
 
   ifeq ($(ARCH),x86)
